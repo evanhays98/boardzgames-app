@@ -11,7 +11,7 @@ import {
   useGetBoard,
   useGetMe,
   useGetPLayerInfoFromName,
-  useIsWarnAction, useWarningLie,
+  useIsWarnAction,
 } from '../api/src';
 import { Button } from './Buttons';
 import { Icon, Icons } from './Icons';
@@ -101,7 +101,6 @@ export const PlayerPlace = ({ isMe = false, name }: Props) => {
   const isMyTurn = board && myPLayer?.id === board.currentPlayerId;
   const classes = useStyles({ theme, isMe, isPlayerTurn: !!(board && player?.id === board.currentPlayerId) });
   const { mutateAsync: action } = useAction(me?.boardId);
-  const warningLie = useWarningLie(board, myPLayer?.id);
 
   const isPossibleAction = useActionPossible(board, player ? player.id : '');
   const isWarnAction = useIsWarnAction(board, player ? player.id : '');
@@ -151,7 +150,7 @@ export const PlayerPlace = ({ isMe = false, name }: Props) => {
             </>
           }
           {
-            isMe && isMyTurn &&
+            isMe &&
             <Button action={true} square={true} classNameUpdate={classes.button} onClick={() => setModalBlock(true)}
                     disabled={!isPossibleAction(ActionType.BLOCK_PICK)
                       && !isPossibleAction(ActionType.BLOCK_ROB)
@@ -192,11 +191,11 @@ export const PlayerPlace = ({ isMe = false, name }: Props) => {
                   disabled={!isPossibleAction(ActionType.BLOCK_KILL)}
                   onClick={async () => {
                     if (!myPLayer) return;
+                    setModalBlock(false);
                     await action({
                       madeBy: myPLayer.id,
                       action: ActionType.BLOCK_KILL,
                     });
-                    setModalBlock(false);
                   }}>
             Kill à 3 pièces
           </Button>
@@ -204,11 +203,11 @@ export const PlayerPlace = ({ isMe = false, name }: Props) => {
                   disabled={!isPossibleAction(ActionType.BLOCK_ROB)}
                   onClick={async () => {
                     if (!myPLayer) return;
+                    setModalBlock(false);
                     await action({
                       madeBy: myPLayer.id,
                       action: ActionType.BLOCK_ROB,
                     });
-                    setModalBlock(false);
                   }}>
             Vol de 2 pièces
           </Button>
@@ -216,11 +215,11 @@ export const PlayerPlace = ({ isMe = false, name }: Props) => {
                   disabled={!isPossibleAction(ActionType.BLOCK_PICK)}
                   onClick={async () => {
                     if (!myPLayer) return;
+                    setModalBlock(false);
                     await action({
                       madeBy: myPLayer.id,
                       action: ActionType.BLOCK_PICK,
                     });
-                    setModalBlock(false);
                   }}
           >
             Pioche de 2 pièces
@@ -234,12 +233,12 @@ export const PlayerPlace = ({ isMe = false, name }: Props) => {
               <Button full
                       onClick={async () => {
                         if (!myPLayer) return;
+                        setModalRobber(false);
                         await action({
                           madeBy: myPLayer.id,
                           to: player.id,
                           action: ActionType.ROB_COIN,
                         });
-                        setModalRobber(false);
                       }}
                       warning={isWarnAction(ActionType.ROB_COIN)}
                       disabled={!isPossibleAction(ActionType.ROB_COIN)}>
@@ -251,12 +250,12 @@ export const PlayerPlace = ({ isMe = false, name }: Props) => {
             <div className={classes.modalContainer}>
               <Button full onClick={async () => {
                 if (!myPLayer) return;
+                setModalKill(false);
                 await action({
                   madeBy: myPLayer.id,
                   to: player.id,
                   action: ActionType.KILL_COIN_3,
                 });
-                setModalKill(false);
               }} disabled={!isPossibleAction(ActionType.KILL_COIN_3)}
                       warning={isWarnAction(ActionType.KILL_COIN_3)}
               >
@@ -264,12 +263,12 @@ export const PlayerPlace = ({ isMe = false, name }: Props) => {
               </Button>
               <Button full onClick={async () => {
                 if (!myPLayer) return;
+                setModalKill(false);
                 await action({
                   madeBy: myPLayer.id,
                   to: player.id,
                   action: ActionType.KILL_COIN_7,
                 });
-                setModalKill(false);
               }} disabled={!isPossibleAction(ActionType.KILL_COIN_7)}
                       warning={isWarnAction(ActionType.KILL_COIN_7)}>
                 Tuer {name?.toUpperCase()} pour 7 pièces

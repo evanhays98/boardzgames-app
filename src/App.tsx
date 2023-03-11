@@ -1,5 +1,5 @@
 import React from 'react';
-import { BrowserRouter } from 'react-router-dom';
+import { HashRouter } from 'react-router-dom';
 import { QueryClient, QueryClientProvider } from 'react-query';
 import { AppRouter } from './Pages/AppRouter';
 import { NavBar } from './libs/core/NavBar/NavBar';
@@ -10,12 +10,12 @@ const queryClient = new QueryClient();
 function App() {
   return (
     <QueryClientProvider client={queryClient}>
-      <BrowserRouter>
+      <HashRouter>
         <PageBackground />
         <NavBar>
           <AppRouter />
         </NavBar>
-      </BrowserRouter>
+      </HashRouter>
     </QueryClientProvider>
   );
 }

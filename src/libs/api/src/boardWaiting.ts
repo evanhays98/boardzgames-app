@@ -67,12 +67,19 @@ export const useGetMe = () => {
   return JSON.parse(me) as UserWaiting;
 };
 
-export const useQueueWaiting = (boardId?: string) => {
+export const useQueueWaiting = (boardId?: string, close?: boolean) => {
   const esRef = useRef<EventSource | null>(null);
   const queryClient = useQueryClient();
 
   useEffect(() => {
     if (!boardId) {
+      return;
+    }
+    if (close) {
+      if (esRef.current) {
+        esRef.current.close();
+        esRef.current = null;
+      }
       return;
     }
     if (esRef.current) {

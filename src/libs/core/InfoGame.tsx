@@ -11,7 +11,7 @@ import {
 } from '../api/src';
 import { Button } from './Buttons';
 import { CopyInput } from './Input/CopyInput';
-import { Navigate, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { Modal } from './Modal';
 
 const useStyles = createUseStyles<string, {}, any>((theme: Theme) => ({
@@ -86,8 +86,8 @@ export const InfoGame = ({ title }: Props) => {
   const { mutateAsync: startGame } = useStartGame(me?.boardId);
   const playerToPlay = useGetPLayerInfoFromID(board?.currentPlayerId, board);
   const ref = useRef<any>(null);
-  const winner = findWinner(board)
-  const navigate = useNavigate()
+  const winner = findWinner(board);
+  const navigate = useNavigate();
 
   useEffect(() => {
     if (ref.current) {
@@ -99,10 +99,6 @@ export const InfoGame = ({ title }: Props) => {
   const submit = async () => {
     if (me?.isOwner) {
       await startGame({ boardId: me?.boardId });
-      if (me?.isOwner) {
-        await startGame({ boardId: me?.boardId },
-        );
-      }
     }
   };
 
@@ -110,14 +106,16 @@ export const InfoGame = ({ title }: Props) => {
   if (!boardWaiting) return null;
 
   const endGame = () => {
-    localStorage.removeItem('playerMe')
-    navigate('/create-room')
-  }
+    localStorage.removeItem('playerMe');
+    navigate('/create-room');
+  };
 
   if (winner) {
-    return <Modal isOpen={true} setIsOpen={() => {endGame()}} title={`${winner} Won the game`} >
+    return <Modal isOpen={true} setIsOpen={() => {
+      endGame();
+    }} title={`${winner} Won the game`}>
       <Button full onClick={endGame}>Continue</Button>
-    </Modal>
+    </Modal>;
   }
 
   if (!board) {

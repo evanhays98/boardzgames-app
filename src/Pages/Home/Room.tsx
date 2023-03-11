@@ -5,8 +5,8 @@ import classnames from 'classnames';
 import { PlayerPlace } from '../../libs/core/PlayerPlace';
 import { CenterGame } from '../../libs/core/CenterGame';
 import { InfoGame } from '../../libs/core/InfoGame';
-import { findWinner, useFollowBoard, useGetMe, useGetWaitingBoard, useQueueWaiting } from '../../libs/api/src';
-import { Navigate, useNavigate } from 'react-router-dom';
+import { useFollowBoard, useGetBoard, useGetMe, useGetWaitingBoard, useQueueWaiting } from '../../libs/api/src';
+import { Navigate } from 'react-router-dom';
 import { CenteredLoader } from '../../libs/core';
 
 
@@ -74,15 +74,16 @@ export const Room = () => {
   const { data: boardWaiting, isLoading } = useGetWaitingBoard(me?.boardId);
   const players = boardWaiting?.playerNames?.filter((player) => player !== me?.name);
   const nbPlayer = players?.length || 0;
-  useQueueWaiting(boardWaiting ? boardWaiting.boardId : '');
-  useFollowBoard(boardWaiting ? boardWaiting.boardId : '')
+  const { data: board } = useGetBoard(me?.boardId);
+  useQueueWaiting(boardWaiting ? boardWaiting.boardId : '', !!board);
+  useFollowBoard(boardWaiting ? boardWaiting.boardId : '');
 
   if (isLoading) {
     return <CenteredLoader />;
   }
 
   if (!me || !boardWaiting) {
-    return <Navigate to="/create-room" />;
+    return <Navigate to='/create-room' />;
   }
 
   return (

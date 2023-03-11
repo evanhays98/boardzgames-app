@@ -1,9 +1,9 @@
 {
   "name": "boardzgames",
-  "homepage": "https://evanhays98.github.io/boardzgames-app",
+  "homepage": "https://boardzgames.com",
   "version": "0.1.0",
   "private": true,
-  "proxy": "https://evanhays98.github.io/boardzgames-app",
+  "proxy": "https://localhost:2000",
   "dependencies": {
     "@emotion/react": "^11.10.5",
     "@emotion/styled": "^11.10.5",

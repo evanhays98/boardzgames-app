@@ -64,7 +64,7 @@ export const FindRoom = () => {
               setCode(e.target.value);
             }} />
             <Button text='Join room' type='submit' full />
-            <Button bgColor='transparent' color='lightBeige' text='Create room' type='submit' href='/create-room' line
+            <Button bgColor='transparent' color='lightBeige' text='Create room' type='submit' to='/create-room' line
                     full />
           </div>
         </Form>

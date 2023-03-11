@@ -66,7 +66,7 @@ export const Login = () => {
             <Input title='Password' name='password' type='password' eye />
             <Button text='Connect' type='submit' full />
             <Button text='Dont have an account' full line bgColor='transparent' color={ColorsTest.lightBeige}
-                    href='/register' />
+                    to='/register' />
           </div>
         </Form>
       </Formik>

@@ -54,7 +54,7 @@ export const CreateRoom = () => {
             <PageTitle text={'Create Room'} />
             <Input title='Player Name' name='ownerName' />
             <Button text='Create room' type='submit' full />
-            <Button bgColor='transparent' color='lightBeige' text='Find a room' full href='/find-room' />
+            <Button bgColor='transparent' color='lightBeige' text='Find a room' full to='/find-room' />
           </div>
         </Form>
       </Formik>

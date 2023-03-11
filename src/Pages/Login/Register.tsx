@@ -59,7 +59,7 @@ export const Register = () => {
             <Input title='Password' name='password' type='password' eye />
             <Button text='Join' type='submit' full />
             <Button text='Already have an account' full line bgColor='transparent' color={ColorsTest.lightBeige}
-                    href='/login' />
+                    to='/login' />
           </div>
         </Form>
       </Formik>

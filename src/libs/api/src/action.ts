@@ -66,15 +66,10 @@ export const usePossibleActions = (board: Board | undefined, idPlayer?: string):
     return actions;
   }
 
-  // if 4 : CHOOSE_CARD
-  // 5 : KILL_COIN_3
-  // next player could not lie
+  actions.push({ action: ActionType.LIE, type: 'allow' });
 
   if (lastAction === ActionType.KILL_COIN_3) {
     actions.push({ action: ActionType.CHOOSE_CARD, type: 'allow' });
-    /*if (board.previousPlayerId !== playerMe.id) {
-      actions.push({ action: ActionType.LIE, type: 'allow' });
-    }*/
     actions.push({ action: ActionType.LIE, type: 'allow' });
     if (myCards.find(card => card.power === CardType.COUNTESS || card.power === CardType.DUCHESS)) {
       actions.push({ action: ActionType.BLOCK_KILL, type: 'allow' });
