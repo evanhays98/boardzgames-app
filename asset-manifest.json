@@ -1,7 +1,7 @@
 {
   "files": {
     "main.css": "/static/css/main.e6229892.css",
-    "main.js": "/static/js/main.531fba8f.js",
+    "main.js": "/static/js/main.0070adb4.js",
     "static/media/board2.png": "/static/media/board2.7f6cd00f941c16055fbc.png",
     "static/media/duchess.png": "/static/media/duchess.6c57f2ff2064cacc44b8.png",
     "static/media/card.png": "/static/media/card.cbb4548afbeb90d59e87.png",
@@ -12,10 +12,10 @@
     "static/media/murderer.png": "/static/media/murderer.caf30f9727d9b3cb4ed2.png",
     "index.html": "/index.html",
     "main.e6229892.css.map": "/static/css/main.e6229892.css.map",
-    "main.531fba8f.js.map": "/static/js/main.531fba8f.js.map"
+    "main.0070adb4.js.map": "/static/js/main.0070adb4.js.map"
   },
   "entrypoints": [
     "static/css/main.e6229892.css",
-    "static/js/main.531fba8f.js"
+    "static/js/main.0070adb4.js"
   ]
 }
