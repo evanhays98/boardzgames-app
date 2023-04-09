@@ -13,9 +13,10 @@ import { Button } from './Buttons';
 import { CopyInput } from './Input/CopyInput';
 import { useNavigate } from 'react-router-dom';
 import { Modal } from './Modal';
+import { useHistoryToDisplay, useNameById } from './hooks';
 
 const useStyles = createUseStyles<string, {}, any>((theme: Theme) => ({
-  container: props => ({
+  container: (props) => ({
     width: '100%',
     height: '100%',
     overflow: 'scroll',
@@ -46,20 +47,20 @@ const useStyles = createUseStyles<string, {}, any>((theme: Theme) => ({
   title: {
     ...theme.fonts.h5,
     marginBottom: theme.marginBase,
-    color: 'rgba(255,255,255,0.9)',
-    backgroundColor: 'rgba(0,0,0,0.5)',
+    color: 'rgba(0,0,0,0.9)',
+    backgroundColor: 'rgba(206,206,206,0.84)',
     borderRadius: theme.borderRadius.std,
     backdropFilter: 'blur(5px)',
     padding: theme.marginBase,
-    //ellipsis
-    overflow: 'hidden',
-    textOverflow: 'ellipsis',
-    whiteSpace: 'nowrap',
-    maxWidth: '100%',
+    minWidth: '100%',
+    fontSize: 12,
+    fontWeight: 600,
     [theme.media.mobile]: {
-      fontSize: 12,
+      fontSize: 10,
+      padding: theme.marginBase / 2,
     },
-  }, idGame: {
+  },
+  idGame: {
     ...theme.fonts.h4,
     marginBottom: theme.marginBase,
     color: 'rgba(255,255,255,0.9)',
@@ -70,12 +71,11 @@ const useStyles = createUseStyles<string, {}, any>((theme: Theme) => ({
   },
 }));
 
-
 interface Props {
-  pin?: boolean,
-  title: string,
-  description?: string,
-  hide?: boolean,
+  pin?: boolean;
+  title: string;
+  description?: string;
+  hide?: boolean;
 }
 
 export const InfoGame = ({ title }: Props) => {
@@ -88,10 +88,11 @@ export const InfoGame = ({ title }: Props) => {
   const ref = useRef<any>(null);
   const winner = findWinner(board);
   const navigate = useNavigate();
+  const nameList = useNameById(board);
+  const historyFunction = useHistoryToDisplay();
 
   useEffect(() => {
     if (ref.current) {
-      console.log(ref);
       ref.current.scrollTop = ref.current.scrollHeight;
     }
   }, [ref, board]);
@@ -101,21 +102,26 @@ export const InfoGame = ({ title }: Props) => {
       await startGame({ boardId: me?.boardId });
     }
   };
-
-
-  if (!boardWaiting) return null;
-
   const endGame = () => {
     localStorage.removeItem('playerMe');
     navigate('/create-room');
   };
 
+  if (!boardWaiting) return null;
+
   if (winner) {
-    return <Modal isOpen={true} setIsOpen={() => {
-      endGame();
-    }} title={`${winner} Won the game`}>
-      <Button full onClick={endGame}>Continue</Button>
-    </Modal>;
+    return (
+      <Modal
+        isOpen={true}
+        setIsOpen={() => {
+          endGame();
+        }}
+        title={`${winner} Won the game`}>
+        <Button full onClick={endGame}>
+          Continue
+        </Button>
+      </Modal>
+    );
   }
 
   if (!board) {
@@ -123,22 +129,34 @@ export const InfoGame = ({ title }: Props) => {
       <div className={classes.container} style={{ flexDirection: 'column' }}>
         <div className={classes.content}>
           <CopyInput value={boardWaiting.boardId}></CopyInput>
-          {me?.isOwner &&
-            <Button text='Start game' type='submit' onClick={submit} />
-          }
+          {me?.isOwner && (
+            <Button text="Start game" type="submit" onClick={submit} />
+          )}
         </div>
-      </div>);
+      </div>
+    );
   }
-
 
   if (!playerToPlay) return null;
   return (
-    <div className={classes.container} ref={ref} id='infoGame'>
+    <div className={classes.container} ref={ref} id="infoGame">
       <div className={classes.content}>
         {board.actionsList.map((action, index) => {
+          if (!nameList) return null;
+          const previousAction =
+            board.actionsList && board.actionsList.length > 1
+              ? board.actionsList[index - 1]
+              : undefined;
+          const madeByName = nameList[action.madeBy];
+          let targetName: string | undefined = '';
+          if (action.to) {
+            targetName = nameList[action.to];
+          } else if (previousAction?.madeBy) {
+            targetName = nameList[previousAction.madeBy];
+          }
           return (
-            <div className={classes.contentTitle}>
-              <h1 className={classes.title}>{index} : {action.action}</h1>
+            <div className={classes.contentTitle} key={index}>
+              {historyFunction(action.action, madeByName, targetName)}
             </div>
           );
         })}

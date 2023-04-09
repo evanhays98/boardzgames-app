@@ -37,7 +37,7 @@ export const PageHeader = ({ title }: Props) => {
   return (
     <div className={classes.container}>
       <h1 className={classes.title}>{title && title}</h1>
-      <Button color={ColorsTest.lightGray} square icon={Icon.close}
+      <Button color={ColorsTest.lightGray} square={true} icon={Icon.close}
               sizeIcon={theme.marginBase * 5} />
     </div>);
 };

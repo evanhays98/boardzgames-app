@@ -36,7 +36,6 @@ export const FindRoom = () => {
   const navigate = useNavigate();
   const location = useLocation();
   const codeUrl = new URLSearchParams(location.search).get('code');
-  console.log(codeUrl);
   const [code, setCode] = useState<string | undefined>(codeUrl || undefined);
   const { mutateAsync: createBoard } = useJoinBoard(code);
 

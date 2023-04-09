@@ -49,13 +49,12 @@ export const Pioche = ({ onClick, disabled, warning }: Props) => {
   return (
     <div className={classes.container} onClick={() => {
       onClick && onClick();
-    }
-    }>
+    }}>
       {warning && <Icons icon={Icon.warn} size={20} className={classes.warning} color='lightBeige' />}
       <Card pin hide className={classnames(classes.cardd)}></Card>
 
       {[45, 90].map((i) =>
-        <Card pin hide className={classnames(classes.card)} style={{ transform: `rotate(${i}deg)` }} />)
+        <Card pin hide className={classnames(classes.card)} style={{ transform: `rotate(${i}deg)` }} key={i} />)
       }
     </div>);
 };

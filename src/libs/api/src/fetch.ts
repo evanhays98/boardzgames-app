@@ -4,7 +4,7 @@ import qs from 'qs';
 /*export const API_URL = 'https://complot-backend.herokuapp.com/api';
 export const APP_URL = 'https://boardzgames.com/#/';*/
 
-export const API_URL = 'http://192.168.1.90:8000/api';
+export const API_URL = 'http://192.168.1.40:8000/api';
 export const APP_URL = 'http://192.168.1.40:2000/#/';
 
 export const fetchWithAuth = async <T = any>(

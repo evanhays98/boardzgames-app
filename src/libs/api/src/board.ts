@@ -25,7 +25,7 @@ export interface HistoryItem {
   action: ActionType;
 }
 
-export interface  Board {
+export interface Board {
   currentPlayerId: string;
   board: {
     id: string;
@@ -75,7 +75,7 @@ export const useFollowBoard = (boardId?: string) => {
 
   useEffect(() => {
     if (!boardId) {
-      return;
+      return undefined;
     }
     if (esRef.current) {
       esRef.current.close();
@@ -87,7 +87,6 @@ export const useFollowBoard = (boardId?: string) => {
 
     eventSource.onmessage = async (boardWaiting) => {
       const board = JSON.parse(boardWaiting.data);
-      console.log('board', board);
       await queryClient.invalidateQueries(['api', 'boards', 'boards', board.board.id]);
     };
     esRef.current = eventSource;
@@ -109,10 +108,10 @@ export const usePreviousPlayerAction = (board?: Board) => {
 };
 
 export const findWinner = (board?: Board) => {
-  if (!board) return;
-  const getBoardCount = board?.board.players.filter(player => player.cards.some(card => !card.isDestroyed))
+  if (!board) return undefined;
+  const getBoardCount = board?.board.players.filter(player => player.cards.some(card => !card.isDestroyed));
   if (getBoardCount && getBoardCount.length === 1) {
-    return getBoardCount[0].name
+    return getBoardCount[0].name;
   }
   return null;
-}
+};

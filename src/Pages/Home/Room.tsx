@@ -5,15 +5,21 @@ import classnames from 'classnames';
 import { PlayerPlace } from '../../libs/core/PlayerPlace';
 import { CenterGame } from '../../libs/core/CenterGame';
 import { InfoGame } from '../../libs/core/InfoGame';
-import { useFollowBoard, useGetBoard, useGetMe, useGetWaitingBoard, useQueueWaiting } from '../../libs/api/src';
+import {
+  useFollowBoard,
+  useGetBoard,
+  useGetMe,
+  useGetWaitingBoard,
+  useQueueWaiting,
+} from '../../libs/api/src';
 import { Navigate } from 'react-router-dom';
 import { CenteredLoader } from '../../libs/core';
-
 
 const useStyles = createUseStyles<string, {}, any>((theme: Theme) => ({
   globalContainer: {
     height: '100%',
     width: '100%',
+    paddingTop: theme.marginBase * 2 + 4,
     backdropFilter: 'blur(0.5px)',
     overflow: 'hidden',
   },
@@ -66,13 +72,14 @@ const useStyles = createUseStyles<string, {}, any>((theme: Theme) => ({
   },
 }));
 
-
 export const Room = () => {
   const classes = useStyles({ theme });
 
   const me = useGetMe();
   const { data: boardWaiting, isLoading } = useGetWaitingBoard(me?.boardId);
-  const players = boardWaiting?.playerNames?.filter((player) => player !== me?.name);
+  const players = boardWaiting?.playerNames?.filter(
+    (player) => player !== me?.name
+  );
   const nbPlayer = players?.length || 0;
   const { data: board } = useGetBoard(me?.boardId);
   useQueueWaiting(boardWaiting ? boardWaiting.boardId : '', !!board);
@@ -83,7 +90,7 @@ export const Room = () => {
   }
 
   if (!me || !boardWaiting) {
-    return <Navigate to='/create-room' />;
+    return <Navigate to="/create-room" />;
   }
 
   return (
@@ -120,6 +127,5 @@ export const Room = () => {
         </div>
       </div>
     </div>
-
   );
 };

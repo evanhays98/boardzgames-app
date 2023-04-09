@@ -42,7 +42,6 @@ const useStyles = createUseStyles<string, {}, any>((theme: Theme) => ({
     backgroundColor: theme.colors.lightBeige,
     ...theme.basicFlex,
   },
-
 }));
 
 function copyToClipboard(text: string) {
@@ -59,21 +58,26 @@ interface Props {
 }
 
 export const CopyInput = ({ value }: Props) => {
-    const classes = useStyles({ theme });
-    const link = APP_URL + 'find-room?code=' + value;
+  const classes = useStyles({ theme });
+  const link = APP_URL + 'find-room?code=' + value;
 
-
-    return (
-      <div className={classes.inputContainer}>
-        <input className={classes.input} name='link-game' value={link} />
-        <div className={classes.button} onClick={() => {
+  return (
+    <div className={classes.inputContainer}>
+      <input
+        className={classes.input}
+        name="link-game"
+        value={link}
+        onChange={() => {}}
+      />
+      <div
+        className={classes.button}
+        onClick={() => {
           copyToClipboard(link);
         }}>
-          <Icons icon={Icon.link} color='orange'></Icons>
-        </div>
+        <Icons icon={Icon.link} color="orange"></Icons>
       </div>
-    );
-  }
-;
+    </div>
+  );
+};
 
 export default Input;

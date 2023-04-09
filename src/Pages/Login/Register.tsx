@@ -38,11 +38,8 @@ export const Register = () => {
 
   const submit = async (values: CreateUserDto) => {
     try {
-      const test = await register(values);
-      console.log('register pass ', test);
       navigate('/create-room');
     } catch (e) {
-      console.log('error ', e);
       throw e;
     }
   };

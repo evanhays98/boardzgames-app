@@ -5,8 +5,18 @@ import { Colors, theme, Theme } from '../../theme';
 import { Link, LinkProps } from 'react-router-dom';
 import { Icon, Icons } from '../Icons';
 
-const useStyles = createUseStyles<string, { line: boolean, bgColor: Colors, color: Colors, disabled: boolean, action: boolean }, any>((theme: Theme) => ({
-  blockColor: props => ({
+const useStyles = createUseStyles<
+  string,
+  {
+    line: boolean;
+    bgColor: Colors;
+    color: Colors;
+    disabled: boolean;
+    action: boolean;
+  },
+  any
+>((theme: Theme) => ({
+  blockColor: (props) => ({
     background: theme.colors[props.bgColor],
     borderRadius: theme.borderRadius.std,
     ...theme.fonts.body,
@@ -18,7 +28,9 @@ const useStyles = createUseStyles<string, { line: boolean, bgColor: Colors, colo
     position: 'relative',
     alignContent: 'center',
     justifyContent: 'center',
-    padding: !props.line ? theme.marginBase : [theme.marginBase / 4, theme.marginBase],
+    padding: !props.line
+      ? theme.marginBase
+      : [theme.marginBase / 4, theme.marginBase],
     gap: !props.line ? theme.marginBase * 2 : theme.marginBase,
     opacity: props.disabled ? 0.5 : 1,
     transition: 'all ease-in-out .2s',
@@ -31,14 +43,17 @@ const useStyles = createUseStyles<string, { line: boolean, bgColor: Colors, colo
   full: {
     width: '100%',
   },
-  square: props => ({
+  square: (props) => ({
     width: theme.marginBase * 4,
     maxWidth: theme.marginBase * 4,
     height: theme.marginBase * 4,
     padding: theme.marginBase / 2,
     '&:hover': {
       cursor: 'pointer',
-      boxShadow: !props.disabled && props.action ? `0px 0px 30px 3px ${theme.colors.lightBeige}` : undefined,
+      boxShadow:
+        !props.disabled && props.action
+          ? `0px 0px 30px 3px ${theme.colors.lightBeige}`
+          : undefined,
     },
   }),
   line: {
@@ -50,7 +65,6 @@ const useStyles = createUseStyles<string, { line: boolean, bgColor: Colors, colo
     right: -14,
   },
 }));
-
 
 interface Props {
   classNameUpdate?: string;
@@ -77,8 +91,24 @@ interface AProps extends React.LinkHTMLAttributes<HTMLLinkElement> {
 
 export type GenericButtonProps = ButtonProps | LinkProps | AProps;
 
-
 export const Button = (props: Props & GenericButtonProps) => {
+  const {
+    classNameUpdate,
+    bgColor,
+    color,
+    iconColor,
+    text,
+    children,
+    full,
+    icon,
+    line,
+    square,
+    sizeIcon,
+    disabled,
+    warning,
+    action,
+    ...rest
+  } = props;
   const classes = useStyles({
     line: !!props.line,
     theme,
@@ -94,15 +124,30 @@ export const Button = (props: Props & GenericButtonProps) => {
   if ('href' in props) {
     ButtonComp = 'a';
   }
-  return <ButtonComp className={classnames(classes.blockColor, {
-    [classes.full]: props.full,
-    [classes.line]: props.line,
-    [classes.square]: props.square,
-  }, props.classNameUpdate)} {...props} onClick={props.disabled ? () => {
-  } : props.onClick}>
-    {props.warning && <Icons icon={Icon.warn} size={16} className={classes.warning} color='lightBeige' />}
-    {props.children}
-    {props.text && props.text}
-    {props.icon && <Icons icon={props.icon} size={16} />}
-  </ButtonComp>;
+  return (
+    <ButtonComp
+      className={classnames(
+        classes.blockColor,
+        {
+          [classes.full]: props.full,
+          [classes.line]: props.line,
+          [classes.square]: !!square,
+        },
+        classNameUpdate
+      )}
+      {...rest}
+      onClick={props.disabled ? () => {} : props.onClick}>
+      {props.warning && (
+        <Icons
+          icon={Icon.warn}
+          size={16}
+          className={classes.warning}
+          color="lightBeige"
+        />
+      )}
+      {props.children}
+      {props.text && props.text}
+      {props.icon && <Icons icon={props.icon} size={16} />}
+    </ButtonComp>
+  );
 };

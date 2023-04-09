@@ -45,7 +45,7 @@ export const SentenceInformation = ({ title }: Props) => {
     <div className={classes.container}>
       <div className={classes.headerContainer}>
         <div className={classes.title}>{title}</div>
-        <Button square>
+        <Button square={true}>
           <Icons icon={Icon.edit} size={theme.icon.normal + 2}></Icons>
         </Button>
       </div>

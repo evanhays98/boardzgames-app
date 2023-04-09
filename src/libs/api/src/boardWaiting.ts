@@ -73,14 +73,14 @@ export const useQueueWaiting = (boardId?: string, close?: boolean) => {
 
   useEffect(() => {
     if (!boardId) {
-      return;
+      return undefined;
     }
     if (close) {
       if (esRef.current) {
         esRef.current.close();
         esRef.current = null;
       }
-      return;
+      return undefined;
     }
     if (esRef.current) {
       esRef.current.close();
@@ -98,5 +98,5 @@ export const useQueueWaiting = (boardId?: string, close?: boolean) => {
     return () => {
       eventSource.close();
     };
-  }, [boardId, queryClient]);
+  }, [boardId, close, queryClient]);
 };
